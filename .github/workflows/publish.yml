@@ -49,7 +49,7 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a .NET Core console project
-        run: dotnet new console
+        run: dotnet new console --name test-project
 
       - name: Add Program.cs
         run: echo 'class Program { static void Main() { NuGetPublish.SayHello(); } }' > Program.cs
