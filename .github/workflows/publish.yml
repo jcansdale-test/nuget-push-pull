@@ -5,6 +5,7 @@ on:
 env:
   DOTNET_NOLOGO: true
   VERSION: "1.1.${{ github.run_number }}"
+  PACKAGE_NAME: nuget-push-pull
 
 jobs:
   build:
@@ -32,3 +33,29 @@ jobs:
 
       - name: Publish package
         run: dotnet nuget push bin/Debug/*.nupkg
+
+  install:
+    needs:
+      build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a .NET Core console project
+        run: dotnet new console
+
+      - name: Add Program.cs
+        run: echo 'class Program { static void Main() { NuGetPublish.SayHello(); } }' > Program.cs
+
+      - name: Install nuget-publish package
+        run: dotnet add package ${{ env.PACKAGE_NAME }}
+
+      - name: Run the project
+        run: dotnet run
