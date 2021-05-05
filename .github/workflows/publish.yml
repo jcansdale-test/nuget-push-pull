@@ -60,5 +60,5 @@ jobs:
         run: dotnet add test-project package nuget-push-pull --version 1.1.6
 
       - name: Run the project
-        run: dotnet run test-project
+        run: dotnet run --project test-project
 
