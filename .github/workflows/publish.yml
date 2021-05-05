@@ -57,7 +57,7 @@ jobs:
         run: echo 'class Program { static void Main() { NuGetPublish.SayHello(); } }' > Program.cs
 
       - name: Install nuget-publish package
-        run: dotnet add package ${{ env.PACKAGE_NAME }}
+        run: dotnet add test-project package nuget-push-pull --version 1.1.6
 
       - name: Run the project
         run: dotnet run
