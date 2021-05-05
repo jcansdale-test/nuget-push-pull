@@ -23,7 +23,7 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ github.token }}
 
       - name: Create a .NET Core class library project
-        run: dotnet new classlib --name ${{ env.PACKAGE_NAME }}
+        run: dotnet new classlib
         
       - name: Add NuGetPublish.cs
         run: echo 'public class NuGetPublish { public static void SayHello() { System.Console.WriteLine("Hello from ${{ github.repository }}!"); } }' > NuGetPublish.cs
@@ -50,6 +50,8 @@ jobs:
 
       - name: Create a .NET Core console project
         run: dotnet new console --name test-project
+
+      - run: ls
 
       - name: Add Program.cs
         run: echo 'class Program { static void Main() { NuGetPublish.SayHello(); } }' > Program.cs
