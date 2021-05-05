@@ -5,7 +5,7 @@ on:
 env:
   DOTNET_NOLOGO: true
   VERSION: "1.1.${{ github.run_number }}"
-  PACKAGE_NAME: nuget-push-pull
+  PACKAGE_NAME: nuget-push-pull2
 
 jobs:
   build:
@@ -57,7 +57,7 @@ jobs:
         run: echo 'class Program { static void Main() { NuGetPublish.SayHello(); } }' > Program.cs
 
       - name: Install nuget-publish package
-        run: dotnet add test-project package nuget-push-pull --version 1.1.6
+        run: dotnet add test-project package ${{ env.PACKAGE_NAME }}
 
       - name: Run the project
         run: dotnet run --project test-project
