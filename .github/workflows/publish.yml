@@ -23,16 +23,16 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ github.token }}
 
       - name: Create a .NET Core class library project
-        run: dotnet new classlib
+        run: dotnet new classlib --name test-project ${{ env.PACKAGE_NAME }}
         
       - name: Add NuGetPublish.cs
-        run: echo 'public class NuGetPublish { public static void SayHello() { System.Console.WriteLine("Hello from ${{ github.repository }}!"); } }' > NuGetPublish.cs
+        run: echo 'public class NuGetPublish { public static void SayHello() { System.Console.WriteLine("Hello from ${{ github.repository }}!"); } }' > ${{ env.PACKAGE_NAME }}/NuGetPublish.cs
 
       - name: Build package
-        run: dotnet pack -p:RepositoryUrl=https://github.com/${{ github.repository }} -p:PackageVersion=${{ env.VERSION }}
+        run: dotnet pack -p:RepositoryUrl=https://github.com/${{ github.repository }} -p:PackageVersion=${{ env.VERSION }} --project ${{ env.PACKAGE_NAME }}
 
       - name: Publish package
-        run: dotnet nuget push bin/Debug/*.nupkg
+        run: dotnet nuget push ${{ env.PACKAGE_NAME }}/bin/Debug/*.nupkg
 
   install:
     needs:
